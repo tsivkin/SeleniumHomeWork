@@ -15,9 +15,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.File;
+import org.assertj.core.api.SoftAssertions;
+
 
 public class test4 {
     private static WebDriver driver;
+    private static final SoftAssertions softAssert = new SoftAssertions();
     String name = "Rick";
     String soName = "Sanchez";
     String fullName = "Rick Sanchez";
@@ -50,13 +53,11 @@ public class test4 {
     }
 
     @Test
-    public void testLocation() {
+    public void formTest() {
+
+        //использовать "softAssert" считаю здесь неуместно, поэтому оставил так, далее с проверкой формы работаю уже через "softAssert"
         Assertions.assertEquals(driver.getCurrentUrl(), "https://demoqa.com/automation-practice-form");
         Assertions.assertEquals(driver.getTitle(), "DEMOQA");
-    }
-
-    @Test
-    public void inputDataTest() {
 
         //ввод имени
         WebElement nameInput = driver.findElement(By.cssSelector("#firstName"));
@@ -124,69 +125,65 @@ public class test4 {
         //использовал wait, для того чтоб успело показаться модальное окно
         WebDriverWait wait = new WebDriverWait(driver, 3);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class=modal-body]")));
-    }
 
-    @Test
-    public void assertModalWindow() {
         //проверка появления модального окна
         WebElement modalTitle = driver.findElement(By.xpath("//div[text()='Thanks for submitting the form']"));
         String modal = modalTitle.getText();
-        Assertions.assertEquals(modal, "Thanks for submitting the form");
-    }
-
-    @Test
-    public void assertOutputData() {
+        softAssert.assertThat(modal).isEqualTo("Thanks for submitting the form");
 
         //проверка введенных данных
         //проверка введеных имени и фамилии
         WebElement assertName = driver.findElement(By.xpath("//td[text()='Student Name']/following-sibling::td[1]"));
         String nameOutput = assertName.getText();
-        Assertions.assertEquals(nameOutput, fullName);
+        softAssert.assertThat(nameOutput).isEqualTo(fullName);
+
 
         //проверка введеной почты
         WebElement assertEmail = driver.findElement(By.xpath("//td[text()='Student Email']/following-sibling::td[1]"));
         String emailOutput = assertEmail.getText();
-        Assertions.assertEquals(emailOutput, email);
+        softAssert.assertThat(emailOutput).isEqualTo(email);
 
         //проверка введеного пола
         WebElement assertGender = driver.findElement(By.xpath("//td[text()='Gender']/following-sibling::td[1]"));
         String genderOutput = assertGender.getText();
-        Assertions.assertEquals(genderOutput, gender);
+        softAssert.assertThat(genderOutput).isEqualTo(gender);
 
         //проверка введеного номера телефона
         WebElement assertMobile = driver.findElement(By.xpath("//td[text()='Mobile']/following-sibling::td[1]"));
         String mobileOutput = assertMobile.getText();
-        Assertions.assertEquals(mobileOutput, mobile);
+        softAssert.assertThat(mobileOutput).isEqualTo(mobile);
 
         //проверка введеной даты рождения
         WebElement assertDateOfBirth = driver.findElement(By.xpath("//td[text()='Date of Birth']/following-sibling::td[1]"));
         String DateBirthOutput = assertDateOfBirth.getText();
-        Assertions.assertEquals(DateBirthOutput, dateBirth);
+        softAssert.assertThat(DateBirthOutput).isEqualTo(dateBirth);
 
         //проверка введеного предмета
         WebElement assertSubject = driver.findElement(By.xpath("//td[text()='Subjects']/following-sibling::td[1]"));
         String subjectOutput = assertSubject.getText();
-        Assertions.assertEquals(subjectOutput, subject);
+        softAssert.assertThat(subjectOutput).isEqualTo(subject);
 
         //проверка введеного хобби
         WebElement assertHobbies = driver.findElement(By.xpath("//td[text()='Hobbies']/following-sibling::td[1]"));
         String hobbiesOutput = assertHobbies.getText();
-        Assertions.assertEquals(hobbiesOutput, hobbies);
+        softAssert.assertThat(hobbiesOutput).isEqualTo(hobbies);
 
         //проверка загруженного изображения
         WebElement assertPicture = driver.findElement(By.xpath("//td[text()='Picture']/following-sibling::td[1]"));
         String pictureName = assertPicture.getText();
-        Assertions.assertEquals(pictureName, "volk.jpg");
+        softAssert.assertThat(pictureName).isEqualTo("volk.jpg");
 
         //проверка введеного адреса
         WebElement assertAddress = driver.findElement(By.xpath("//td[text()='Address']/following-sibling::td[1]"));
         String addressOutput = assertAddress.getText();
-        Assertions.assertEquals(addressOutput, address);
+        softAssert.assertThat(addressOutput).isEqualTo(address);
 
         //проверка выбранного штата и города
-        WebElement assertStateSity = driver.findElement(By.xpath("//td[text()='State and City']/following-sibling::td[1]"));
-        String stateSityOutput = assertStateSity.getText();
-        Assertions.assertEquals(stateSityOutput, stateCity);
+        WebElement assertStateCity = driver.findElement(By.xpath("//td[text()='State and City']/following-sibling::td[1]"));
+        String stateCityOutput = assertStateCity.getText();
+        softAssert.assertThat(stateCityOutput).isEqualTo(stateCity);
+
+        softAssert.assertAll();
     }
 
     @AfterAll
