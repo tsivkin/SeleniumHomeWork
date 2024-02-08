@@ -55,9 +55,10 @@ public class test4 {
     @Test
     public void formTest() {
 
-        //использовать "softAssert" считаю здесь неуместно, поэтому оставил так, далее с проверкой формы работаю уже через "softAssert"
+        //использовать "softAssert" считаю здесь неуместно, поэтому оставил так, далее работаю уже через "softAssert"
+        //даже если мое решение спорнов этом моенете с URL, то в любом случае я понял как пользоваться softAssert =)
         Assertions.assertEquals(driver.getCurrentUrl(), "https://demoqa.com/automation-practice-form");
-        Assertions.assertEquals(driver.getTitle(), "DEMOQA");
+        softAssert.assertThat(driver.getTitle()).isEqualTo("DEMOQA");
 
         //ввод имени
         WebElement nameInput = driver.findElement(By.cssSelector("#firstName"));
